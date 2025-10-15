@@ -26,7 +26,7 @@ class Rig:
             return (f'Pristine ({self.upgradeLevel})')
         elif self.damageCounter == 1:
             return (f'Damaged ({self.upgradeLevel})')
-        elif self.damageCounter >= 2:
+        elif self.damageCounter >= (self.upgradeLevel + 2):
             self.broken = True
             return (f'Broken ({self.upgradeLevel})')
 
@@ -65,7 +65,7 @@ class Rig:
             return
 
 
-        if self.broken == False:
+        if not self.broken:
             print(f'{self.name} is not in need of repair')
 
         elif self.broken:
