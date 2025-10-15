@@ -18,3 +18,19 @@ class Rig:
         self.dataSpikes = 2
         self.removableDrive = 1
         self.upgradeLevel = 0
+
+#Returns the user with the Rig's condition based on damage & upgrade level. If the rig is on or exceeds 2 damage the broken value will be updated to 'True' for the rig
+    def rigCondition(self):
+
+        if self.damageCounter == 0:
+            return (f'Pristine ({self.upgradeLevel})')
+        elif self.damageCounter == 1:
+            return (f'Damaged ({self.upgradeLevel})')
+        elif self.damageCounter >= 2:
+            self.broken = True
+            return (f'Broken ({self.upgradeLevel})')
+
+
+
+
+
