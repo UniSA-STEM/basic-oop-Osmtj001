@@ -30,6 +30,29 @@ class Rig:
             self.broken = True
             return (f'Broken ({self.upgradeLevel})')
 
+#Function which will be called when taking damage. Will update prior rigCondition function & display new damage/ condition
+    def takeDamage(self):
+
+        if self.broken == True:
+            print(f'{self.name} is already broken')
+
+
+        self.damageCounter += 1
+        print(f'{self.name}: Taking {self.damageCounter} damage')
+
+        if self.upgradeLevel == 0 and self.damageCounter >= 2:
+            self.broken = True
+            print(f'{self.name} has been critically damaged and no longer function. {self.name} is now broken')
+
+        elif self.upgradeLevel == 1 and self.damageCounter >= 3:
+            self.broken = True
+            print(f'{self.name} has been critically damaged and no longer function. {self.name} is now broken')
+
+        elif self.upgradeLevel == 2 and self.damageCounter >= 4:
+            self.broken = True
+            print(f'{self.name} has been critically damaged and no longer function. {self.name} is now broken')
+
+        print(f'{self.name} Current Condition: {self.rigCondition()}')
 
 
 
