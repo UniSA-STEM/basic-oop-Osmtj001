@@ -15,14 +15,14 @@ from Asset import Asset
 #Class for rig & user input
 class Rig:
 
-    def __init__(self, name, damageCounter, broken, storage, dataSpikes, removableDrive, upgradeLevel):
+    def __init__(self, name, damageCounter=0, broken=False, storage=None, dataSpikes=2, removableDrive=1, upgradeLevel=0):
         self.name = name
-        self.damageCounter = 0
-        self.broken = False
-        self.storage = []
-        self.dataSpikes = 2
-        self.removableDrive = 1
-        self.upgradeLevel = 0
+        self.damageCounter = damageCounter
+        self.broken = broken
+        self.storage = storage if storage is not None else []
+        self.dataSpikes = dataSpikes
+        self.removableDrive = removableDrive
+        self.upgradeLevel = upgradeLevel
 
 #Returns the user with the Rig's condition based on damage & upgrade level. If the rig is on or exceeds 2 damage the broken value will be updated to 'True' for the rig
     def rigCondition(self):
