@@ -100,6 +100,6 @@ class Rig:
         print(f'{self.name} has generated {generatedAsset.name}]')
 
 #Allows the user to display the Rig details at any moment
-    def __Str(self):
+    def __str__(self):
         assetStorage =  ','.join(str(asset) for asset in self.storage) if self.storage else 'No Assets located within storage'
         return f'Rig: {self.name} \n Condition: {self.rigCondition()} \n Upgrade Level: {self.upgradeLevel} \n Storage: {assetStorage}'
