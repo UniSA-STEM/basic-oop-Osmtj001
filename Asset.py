@@ -25,6 +25,7 @@ class Asset:
         else:
             print(f'{self.name} Has been already been encrypted within the Main Module.')
 
+
 #Allows user to decrypt assets. Will advise user if function is successful, or if asset was already decrypted
     def decrypt(self):
         if self.encrypted == True:
@@ -35,6 +36,7 @@ class Asset:
 #Returns clean string of asset either encrypted, or with no encryption change
     def __str__(self):
         if self.encrypted == True:
-            return f'{self.name}: {self.description} has been Encrypted.'
+            return f'{self.name}: {self.description} [Encrypted]'
         else:
             return f'{self.name}: {self.description}'
+
