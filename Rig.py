@@ -6,6 +6,11 @@ ID: <110316757>
 Username: <Osmtj001>
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
+#Random will allow us to generate a random asset for selection
+import random
+
+from Asset import Asset
+
 
 #Class for rig & user input
 class Rig:
@@ -84,7 +89,13 @@ class Rig:
                 print(f'{self.name} has not been repaired')
             return
 
+#Generates assets randomly from the list of compatible assets. These are then entered into Rigs storage, with a prompt advising of which asset was generated
+    def generateAsset(self):
 
+        assets = [('DataSpike: Used in battles.'), ('Removable Drive: Found in rigs and used for extrac�on.'), ('Security Chip: Used to encrypt or decrypt assets.')]
 
-
+        name, description = random.choice(assets)
+        generatedAsset = Asset(name, description)
+        self.storage.append(generatedAsset)
+        print(f'{self.name} has generated {generatedAsset.name}]')
 
