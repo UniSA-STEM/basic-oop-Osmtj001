@@ -54,6 +54,37 @@ class Rig:
 
         print(f'{self.name} Current Condition: {self.rigCondition()}')
 
+#Function to prompt the user if they would like to repair for 1x CryptoToken. If not, the user is returned out of the function. Function will call on the user inventory & update if a token is taken
+    def rigRepair(self, hacker):
+
+
+        token = next((a for a in hacker.inventory if a.name.lower() == 'cryptotoken'), None)
+
+        if not token:
+            print(f'{hacker.name} has insufficient tokens to repair {self.name}')
+            return
+
+
+        if self.broken == False:
+            print(f'{self.name} is not in need of repair')
+
+        elif self.broken:
+            repair= input(f'{self.name} is broken, would you like to use 1x CryptoToken to repair?')
+            while repair not in ('yes', 'no'):
+                repair= input('Please enter yes or no if you would like to use 1x CryptoToken to repair?').lower()
+
+            if repair == 'yes':
+                hacker.inventory.remove(token)
+                self.damageCounter = 0
+                self.broken = False
+                print(f'{self.name} has been repaired using 1x CryptoToken')
+                print(f'Condition restored back to: {self.rigCondition()}')
+
+            else:
+                print(f'{self.name} has not been repaired')
+            return
+
+
 
 
 
