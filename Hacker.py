@@ -30,3 +30,12 @@ class Hacker:
         if self.traceLevel >= self.traceThreshold:
             return 'Exposed'
 
+    def __str__(self):
+        rigName = self.rig.name if self.rig else 'None'
+        exposed = 'Exposed' if self.Exposed() else 'Not Exposed'
+        return (
+        f'Hacker: {self.name}{exposed}\n'
+        f'Rig: {rig.name}\n'
+        f'Trace Level: {self.traceLevel}\n'
+        f'Inventory: {self.inventoryList()}'
+          )
