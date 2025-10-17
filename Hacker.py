@@ -30,6 +30,19 @@ class Hacker:
         if self.traceLevel >= self.traceThreshold:
             return 'Exposed'
 
+
+    def rigAcquisition(self, rig):
+
+        if self.rig is not None:
+            print(f'{self.name} already has a rig.')
+            return
+
+        token = next((item for item in self.inventory if item.name.lower() == 'cryptotoken'), None)
+        if not token:
+            print(f'{self.name} does not have enough CryptoToken to acquire a rig.')
+            return
+
+    #String function to display key variables from 'Hacker' class
     def __str__(self):
         rigName = self.rig.name if self.rig else 'None'
         exposed = 'Exposed' if self.Exposed() else 'Not Exposed'
