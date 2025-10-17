@@ -9,6 +9,7 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 #Random will allow us to generate a random asset for selection
 import random
 
+#Importing 'Asset' as we will call upon functions within 'Asset' in this class
 from Asset import Asset
 
 
