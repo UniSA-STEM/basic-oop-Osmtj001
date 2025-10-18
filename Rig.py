@@ -91,14 +91,44 @@ class Rig:
             return
 
 #Generates assets randomly from the list of compatible assets. These are then entered into Rigs storage, with a prompt advising of which asset was generated
-    def generateAsset(self):
+    def generateAsset(self, hacker=None):
 
-        assets = [('DataSpike', 'Used in battles.'), ('Removable Drive', 'Found in rigs and used for extraction.'), ('Security Chip', 'Used to encrypt or decrypt assets.')]
+        assets = [
+            ('DataSpike', 'Used in battles.', 'R'),
+            ('Removable Drive', 'Found in rigs and used for extraction.', 'R'),
+            ('Security Chip', 'Used to encrypt or decrypt assets.', 'R_H'),
+            ('CryptoToken:', 'Used to acquire or repair rigs', 'H'),
+            ('Hardware Patch:', 'Used to upgrade rigs', 'H')
+        ]
 
-        name, description = random.choice(assets)
+        name, description, category = random.choice(assets)
         generatedAsset = Asset(name, description)
-        self.storage.append(generatedAsset)
-        print(f'{self.name} has generated {generatedAsset}')
+
+        if category == 'R':
+            self.storage.append(generatedAsset)
+            print(f'{self.name} has generated {generatedAsset}')
+
+        elif category == 'H':
+            if hacker:
+                hacker.inventory.append(generatedAsset)
+                print(f'{self.name} has generated {generatedAsset}')
+            else:
+                self.storage.append(generatedAsset)
+                print(f'{self.name} has generated {generatedAsset} into storage')
+
+        elif category == 'R_H':
+
+            if hacker and random.choice([True, False]):
+                hacker.inventory.append(generatedAsset)
+                print(f'{self.name} has generated {generatedAsset} into storage')
+
+            else:
+                self.storage.append(generatedAsset)
+                print(f'{self.name} has generated {generatedAsset} into storage')
+
+
+
+
 
 #Allows the user to display the Rig details at any moment
     def __str__(self):
