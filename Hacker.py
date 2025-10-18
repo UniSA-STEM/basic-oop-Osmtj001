@@ -164,6 +164,50 @@ class Hacker:
         asset.encrypted = False
         print(f'{asset.name} has been decrypted with the use of 1x Security Chip.')
 
+
+    def formatting(self, s:str):
+        return s.lower().replace(" ", "").replace('-', '')
+
+    def findAsset(self, container: list, assetName: str):
+        key = self.formatting(assetName)
+        return next((a for a in container if self.formatting(a.name) == key), None)
+
+    def storeInRig(self, assetName: str = None):
+        if not self.rig:
+            print(f'{self.name} does not have any assets to store in Rig.')
+            return
+
+        allowedItems = {'dataspike', 'removabledrive', 'securitychip'}
+
+        moved = []
+
+        if assetName:
+            asset = self.findAsset(self.inventory, assetName)
+            if not asset:
+                print(f' {self.name} does not have {assetName} in Inventory.')
+                return
+            if self.formatting(asset.name) not in allowedItems:
+                print(f' {assetName} cannot be stored in Rig.')
+                return
+
+            self.inventory.remove(asset)
+            self.rig.storage.append(asset)
+            moved.append(assetName)
+        else:
+            availableAssets = [a for a in list(self.rig.storage) if self.formatting(a.name) in allowedItems]
+            if not availableAssets:
+                print('No items located within Inventory are allowed to be stored in Rig.')
+                return
+            for asset in availableAssets:
+                self.inventory.remove(asset)
+                self.rig.storage.append(asset)
+                moved.append(asset)
+
+        if moved:
+            print(f' Stored to {self.rig.name}: {', '.join(a.name for a in moved)}")
+        return moved
+
+
     #String function to display key variables from 'Hacker' class
     def __str__(self):
         rigName = self.rig.name if self.rig else 'None'
