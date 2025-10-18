@@ -13,7 +13,7 @@ from Asset import Asset
 class Hacker:
 
     #Initializing hacker function. Will contain required values for the hacker class
-    def __innit__(self, name):
+    def __init__(self, name):
         self.name = name
         self.inventory = [Asset('CryptoToken')]
         self.rig = None
@@ -41,13 +41,18 @@ class Hacker:
         if not token:
             print(f'{self.name} does not have enough CryptoToken to acquire a rig.')
             return
+
+        self.inventory.remove(token)
+        self.rig = rig
+        print(f'{self.name} acquired rig: {rig.name}.')
+
     #Function to allow rig to launch attack, while consuming 1x data spike. If the Hacker does not have a rig, or has insufficient data spikes and error will be returned.
     def attack(self, targetRig):
 
         if not self.rig:
             print(f'{self.name} does not have a rig to attack from.')
 
-        if self.exposed == 'Exposed':
+        if self.exposed() == 'Exposed':
             print(f'{self.name} is exposed and cannot launch an attack as their trace level is {self.traceLevel}.')
 
         dataSpike = [a for a in self.rig.storage if a.name.lower().replace(" ", "") == 'dataspike']
@@ -56,7 +61,7 @@ class Hacker:
             print(f'{self.name} does not have sufficient Data Spikes to launch an attack.')
             return
 
-        dataSpike = dataSpikes[0]
+        dataSpike = dataSpike[0]
         self.rig.storage.remove(dataSpike)
         print(f'{self.name} and their rig {self.rig.name} have launched a Data Spike at {targetRig.name}.')
         targetRig.takeDamage()
@@ -81,7 +86,7 @@ class Hacker:
             print('Extraction has been cancelled.')
             return
 
-        removableDrive = removableDrives[0]
+        removableDrive = removableDrive[0]
         if removableDrive in self.rig.storage:
             self.rig.storage.remove(removableDrive)
         else: self.inventory.remove(removableDrive)
@@ -106,10 +111,10 @@ class Hacker:
     #String function to display key variables from 'Hacker' class
     def __str__(self):
         rigName = self.rig.name if self.rig else 'None'
-        exposed = 'Exposed' if self.Exposed() else 'Not Exposed'
+        exposed = 'Exposed' if self.exposed() else 'Not Exposed'
         return (
         f'Hacker: {self.name}{exposed}\n'
-        f'Rig: {rig.name}\n'
+        f'Rig: {self.rig.name}\n'
         f'Trace Level: {self.traceLevel}\n'
         f'Inventory: {self.inventoryList()}'
           )
