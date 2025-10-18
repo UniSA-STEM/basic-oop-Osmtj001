@@ -106,6 +106,36 @@ class Hacker:
         else:
             print(f'{self.name} does not have any assets to extract.')
 
+    #Function to encrypt assets within inventory or rig storage
+    def encryption(self, assetName):
+        if not self.rig.storage and not self.inventory:
+            print(f'{self.name} does not have any assets to encrypt.')
+            return
+
+        asset = next(
+            (a for a in self.inventory + (self.rig.storage if self.rig else [])
+             if a.name.lower().replace(" ", "") == assetName.lower().replace(" ", "")),
+            None
+        )
+
+        if not asset:
+            print(f' Unable to locate asset "{assetName}" to encrypt.')
+            return
+
+        chip = next((a for a in self.inventory if a.name.lower().replace(" ", "") == 'securitychip'))
+        if not chip:
+            print(f' {self.name} does not have an available Security Chip for asset encryption')
+            return
+
+        if asset.encrypted:
+            print(f'{asset.name} is already encrypted')
+            return
+
+        self.inventory.remove(chip)
+        asset.encrypted = True
+        print(f'{asset.name} has been encrypted with the use of 1x Security Chip.')
+
+
 
 
     #String function to display key variables from 'Hacker' class
