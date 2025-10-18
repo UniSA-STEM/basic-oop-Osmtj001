@@ -26,11 +26,11 @@ class Hacker:
             return 'Inventory is empty'
         return ', '.join(str(item) for item in self.inventory)
 
-    def Exposed(self):
+    def exposed(self):
         if self.traceLevel >= self.traceThreshold:
             return 'Exposed'
 
-
+    #Allows Hacker to purchase rig. If hacker has insufficient tokens and error will be displayed
     def rigAcquisition(self, rig):
 
         if self.rig is not None:
@@ -41,6 +41,67 @@ class Hacker:
         if not token:
             print(f'{self.name} does not have enough CryptoToken to acquire a rig.')
             return
+    #Function to allow rig to launch attack, while consuming 1x data spike. If the Hacker does not have a rig, or has insufficient data spikes and error will be returned.
+    def attack(self, targetRig):
+
+        if not self.rig:
+            print(f'{self.name} does not have a rig to attack from.')
+
+        if self.exposed == 'Exposed':
+            print(f'{self.name} is exposed and cannot launch an attack as their trace level is {self.traceLevel}.')
+
+        dataSpike = [a for a in self.rig.storage if a.name.lower().replace(" ", "") == 'dataspike']
+
+        if not dataSpike:
+            print(f'{self.name} does not have sufficient Data Spikes to launch an attack.')
+            return
+
+        dataSpike = dataSpikes[0]
+        self.rig.storage.remove(dataSpike)
+        print(f'{self.name} and their rig {self.rig.name} have launched a Data Spike at {targetRig.name}.')
+        targetRig.takeDamage()
+
+        self.traceLevel += 1
+        print(f'Trace Level is now {self.traceLevel}.')
+
+        if targetRig.broken:
+            print(f'{targetRig.name} is broken, would you like to proceed with data extraction?.')
+
+            removableDrive = [a for a in self.rig.storage if a.name.lower().replace(" ", "") == 'removabledrive']
+            removableDrive = [a for a in self.inventory if a. name.lower().replace(" ", "") == 'removabledrive']
+            if not removableDrive:
+                print(f'{self.rig.name} does not contain a removable drive. Extraction not available.')
+                return
+
+        extraction = input(f'Would you like to use 1x Removable Drive to extract assets from {targetRig.name}? (y/n) ')
+        while extraction not in ('y', 'n'):
+            extraction = input('Please enter "y" or "n": ')
+
+        if extraction == 'n':
+            print('Extraction has been cancelled.')
+            return
+
+        removableDrive = removableDrives[0]
+        if removableDrive in self.rig.storage:
+            self.rig.storage.remove(removableDrive)
+        else: self.inventory.remove(removableDrive)
+
+        extractedAssets = []
+        for asset in list(targetRig.storage):
+            if not asset.encrypted:
+                targetRig.storage.remove(asset)
+                self.inventory.append(asset)
+                extractedAssets.append(asset)
+
+        if extractedAssets:
+            print(f'Assets have been extracted from {targetRig.name}.')
+            for item in extractedAssets:
+                print(f' - {item.name}')
+
+        else:
+            print(f'{self.name} does not have any assets to extract.')
+
+
 
     #String function to display key variables from 'Hacker' class
     def __str__(self):
