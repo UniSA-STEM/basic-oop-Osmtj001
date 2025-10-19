@@ -26,10 +26,33 @@ class Hacker:
         if not self.inventory:
             return 'Inventory is empty'
         return ', '.join(str(item) for item in self.inventory)
-
+    #Function which checks if the hackers current trace level is above the threshold
     def exposed(self):
         if self.traceLevel >= self.traceThreshold:
             return 'Exposed'
+    #Returns the current status of the Hackers trace
+    def traceStatus(self):
+        traceStatus = self.exposed() or 'Hidden from Trace'
+        return f'{self.name} Trace Status: {traceStatus}'
+    #Increases hacker trace level by 1
+    def increaseTrace(self, amount: int =1):
+        if amount <=0:
+            return self.traceLevel
+
+        self.traceLevel += int(amount)
+        print(f'{self.name} Trace Level has increased by {amount}. Current Trace Level: {self.traceLevel}')
+
+        if self.exposed() == 'Exposed':
+            print(f'{self.name} Is now exposed!')
+            return self.traceLevel
+    #Decreases hacker trace level by 1
+    def reduceTrace(self, amount: int =1):
+        if amount <=0:
+            return self.traceLevel
+
+        self.traceLevel = max(0, self.traceLevel - int(amount))
+        print(f'{self.name} Trace Level reduced by {amount}. Current Trace Level: {self.traceLevel}')
+        return self.traceLevel
 
     #Allows Hacker to purchase rig. If hacker has insufficient tokens and error will be displayed
     def rigAcquisition(self, rig):
@@ -206,7 +229,7 @@ class Hacker:
                 moved.append(asset)
 
         if moved:
-            print(f' Stored to {self.rig.name}: {', '.join(a.name for a in moved)}")
+            print(f' Stored to {self.rig.name}: {', '.join(a.name for a in moved)}')
         return moved
 
     def rigRetrival(self, assetName: str = None):
@@ -244,7 +267,8 @@ class Hacker:
         if moved:
             print(f"Retrieved from {self.rig.name}: {', '.join(a.name for a in moved)}")
         return moved
-    #String function to display key variables from 'Hacker' class
+
+       #String function to display key variables from 'Hacker' class
     def __str__(self):
         rigName = self.rig.name if self.rig else 'None'
         exposed = 'Exposed' if self.exposed() else 'Not Exposed'
