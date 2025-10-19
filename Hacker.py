@@ -6,6 +6,7 @@ ID: <110316757>
 Username: <Osmtj001>
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
+from selectors import SelectSelector
 
 #Import 'Asset' file to call functions from
 from Asset import Asset
@@ -164,14 +165,15 @@ class Hacker:
         asset.encrypted = False
         print(f'{asset.name} has been decrypted with the use of 1x Security Chip.')
 
-
+    #Formatts string into a single word, lowercase to simplify search functionality
     def formatting(self, s:str):
         return s.lower().replace(" ", "").replace('-', '')
-
+    #Called upon to help find the name of an asset within a list/ container
     def findAsset(self, container: list, assetName: str):
         key = self.formatting(assetName)
         return next((a for a in container if self.formatting(a.name) == key), None)
 
+    #Allows user to enter asset name to store within rig
     def storeInRig(self, assetName: str = None):
         if not self.rig:
             print(f'{self.name} does not have any assets to store in Rig.')
@@ -207,7 +209,41 @@ class Hacker:
             print(f' Stored to {self.rig.name}: {', '.join(a.name for a in moved)}")
         return moved
 
+    def rigRetrival(self, assetName: str = None):
 
+        if not self.rig:
+            print(f'{self.name} does not have a rig to retieve assets from.')
+            return
+
+        moved = []
+
+        if assetName:
+            asset = self.findAsset(self.rig.storage, assetName)
+            if not asset:
+                print(f' {self.rig.name} does not have {assetName} in Inventory.')
+                return
+            if asset.encrypted:
+                print(f'{asset.name} is encrypted and cannot be retrived until it has been decrypted.')
+                return
+
+            self.rig.storage.remove(asset)
+            self.inventory.append(asset)
+            moved.append(asset)
+
+        else:
+            allAssets = [a for a in list(self.rig.storage) if not a.encrypted]
+            if not allAssets:
+                print(f'No unencrypted assets to retrive from {self.rig.name}')
+                return
+            for asset in allAssets:
+                self.rig.storage.remove(asset)
+                self.inventory.append(asset)
+                moved.append(asset)
+
+
+        if moved:
+            print(f"Retrieved from {self.rig.name}: {', '.join(a.name for a in moved)}")
+        return moved
     #String function to display key variables from 'Hacker' class
     def __str__(self):
         rigName = self.rig.name if self.rig else 'None'
