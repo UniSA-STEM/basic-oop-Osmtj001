@@ -127,41 +127,42 @@ class Hacker:
         if targetRig.broken:
             print(f'{targetRig.name} is broken, would you like to proceed with data extraction?.')
 
-        removableItems = [a for a in (self.rig.storage + self.inventory)if a.name.lower().replace(" ", "") == 'removabledrive']
-        if not removableItems:
-            print(f'{self.rig.name} does not contain a removable drive. Extraction not available.')
-            return
+            removableItems = [a for a in (self.rig.storage + self.inventory)if a.name.lower().replace(" ", "") == 'removabledrive']
 
-        extraction = input(f'Would you like to use 1x Removable Drive to extract assets from {targetRig.name}? (y/n) ')
-        while extraction not in ('y', 'n'):
-            extraction = input('Please enter "y" or "n": ')
+            if not removableItems:
+                print(f'{self.rig.name} does not contain a removable drive. Extraction not available.')
+                return
 
-        if extraction == 'n':
-            print('Extraction has been cancelled.')
-            return
+            extraction = input(f'Would you like to use 1x Removable Drive to extract assets from {targetRig.name}? (y/n) ')
+            while extraction not in ('y', 'n'):
+                extraction = input('Please enter "y" or "n": ')
 
-        removableDrive = removableItems[0]
-        if not removableDrive:
-            print(f'{self.rig.name} does not contain a removable drive. Extraction not available.')
-        if removableDrive in self.rig.storage:
-            self.rig.storage.remove(removableDrive)
-        else:
-            self.inventory.remove(removableDrive)
+            if extraction == 'n':
+                print('Extraction has been cancelled.')
+                return
 
-        extractedAssets = []
-        for asset in list(targetRig.storage):
-            if not asset.encrypted:
-                targetRig.storage.remove(asset)
-                self.inventory.append(asset)
-                extractedAssets.append(asset)
+            removableDrive = removableItems[0]
+            if not removableDrive:
+                print(f'{self.rig.name} does not contain a removable drive. Extraction not available.')
+            if removableDrive in self.rig.storage:
+                self.rig.storage.remove(removableDrive)
+            else:
+                self.inventory.remove(removableDrive)
 
-        if extractedAssets:
-            print(f'Assets have been extracted from {targetRig.name}.')
-            for item in extractedAssets:
-                print(f'- {item.name}')
+            extractedAssets = []
+            for asset in list(targetRig.storage):
+                if not asset.encrypted:
+                    targetRig.storage.remove(asset)
+                    self.inventory.append(asset)
+                    extractedAssets.append(asset)
 
-        else:
-            print(f'{targetRig.name} does not have any assets to extract.')
+            if extractedAssets:
+                print(f'Assets have been extracted from {targetRig.name}.')
+                for item in extractedAssets:
+                    print(f'- {item.name}')
+
+            else:
+                print(f'{targetRig.name} does not have any assets to extract.')
 
 
     #Reverse or prior function. Allows user to decrypt assets
