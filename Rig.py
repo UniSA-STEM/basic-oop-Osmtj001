@@ -97,8 +97,8 @@ class Rig:
             ('DataSpike', 'Used in battles.', 'R'),
             ('Removable Drive', 'Found in rigs and used for extraction.', 'R'),
             ('Security Chip', 'Used to encrypt or decrypt assets.', 'R_H'),
-            ('CryptoToken:', 'Used to acquire or repair rigs', 'H'),
-            ('Hardware Patch:', 'Used to upgrade rigs', 'H')
+            ('CryptoToken', 'Used to acquire or repair rigs', 'H'),
+            ('Hardware Patch', 'Used to upgrade rigs', 'H')
         ]
 
         name, description, category = random.choice(assets)

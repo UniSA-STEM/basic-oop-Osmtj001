@@ -16,7 +16,7 @@ class Hacker:
     #Initializing hacker function. Will contain required values for the hacker class
     def __init__(self, name):
         self.name = name
-        self.inventory = [Asset('CryptoToken')]
+        self.inventory = [Asset('CryptoToken', 'Used to acquire or repair rigs.')]
         self.rig = None
         self.traceLevel = 0
         self.traceThreshold = 5
@@ -128,12 +128,12 @@ class Hacker:
                 print(f' - {item.name}')
 
         else:
-            print(f'{self.name} does not have any assets to extract.')
+            print(f'{self.name}does not have any assets to extract.')
 
     #Function to encrypt assets within inventory or rig storage
     def encryption(self, assetName):
         if not self.rig and not self.inventory:
-            print(f'{self.name} does not have any assets to encrypt.')
+            print(f'{self.name}does not have any assets to encrypt.')
             return
 
         asset = next(
@@ -143,12 +143,12 @@ class Hacker:
         )
 
         if not asset:
-            print(f' Unable to locate asset "{assetName}" to encrypt.')
+            print(f'Unable to locate asset "{assetName}" to encrypt.')
             return
 
         chip = next((a for a in self.inventory if a.name.lower().replace(" ", "") == 'securitychip'), None)
         if not chip:
-            print(f' {self.name} does not have an available Security Chip for asset encryption')
+            print(f'{self.name} does not have an available Security Chip for asset encryption')
             return
 
         if asset.encrypted:
@@ -219,9 +219,9 @@ class Hacker:
             self.rig.storage.append(asset)
             moved.append(assetName)
         else:
-            availableAssets = [a for a in list(self.rig.storage) if self.formatting(a.name) in allowedItems]
+            availableAssets = [a for a in self.inventory if self.formatting(a.name) in allowedItems]
             if not availableAssets:
-                print('No items located within Inventory are allowed to be stored in Rig.')
+                print(f'No items located within {self.name} Inventory are allowed to be stored in Rig.')
                 return
             for asset in availableAssets:
                 self.inventory.remove(asset)
@@ -229,7 +229,7 @@ class Hacker:
                 moved.append(asset)
 
         if moved:
-            print(f' Stored to {self.rig.name}: {', '.join(a.name for a in moved)}')
+            print(f'Stored to {self.rig.name}: {', '.join(a.name for a in moved)}')
         return moved
 
     def rigRetrival(self, assetName: str = None):
@@ -273,7 +273,7 @@ class Hacker:
             print(f'{self.name} does not have a rig to repair.')
             return False
 
-        if self.rig.damageCounter == 0 and not self.rig.broken
+        if self.rig.damageCounter == 0 and not self.rig.broken:
             print(f'{self.name} does not have any damage requiring repair.')
             return False
 
@@ -292,13 +292,29 @@ class Hacker:
         self.inventory.remove(token)
         self.rig.damageCounter = 0
         self.rig.broken = False
+    ##Allows the hacker to upgrade the rig with the use of 1x Hardware Patch
+    def upgradeRig(self):
+        if not self.rig:
+            print(f'{self.name} does not have a rig to upgrade.')
+            return
+        hwPatch = next((a for a in self.inventory if a.name.lower().replace(" ", "") == 'hardwarepatch'), None)
+        if not hwPatch:
+            print(f'{self.name} does not have a Hardware Patch for rig upgrade.')
+            return False
+
+        self.inventory.remove(hwPatch)
+        self.rig.upgradeLevel += 1
+        print(f'{self.rig.name} has been upgraded by using 1x Hardware Patch to level {self.rig.upgradeLevel}.')
+        return True
+
+
 
        #String function to display key variables from 'Hacker' class
     def __str__(self):
         rigName = self.rig.name if self.rig else 'None'
         exposed = 'Exposed' if self.exposed() else 'Not Exposed'
         return (
-        f'Hacker: {self.name}{exposed}\n'
+        f'Hacker: {self.name}\n'
         f'Rig: {self.rig.name}\n'
         f'Trace Level: {self.traceLevel}\n'
         f'Inventory: {self.inventoryList()}'
