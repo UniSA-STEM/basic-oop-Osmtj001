@@ -104,9 +104,11 @@ class Hacker:
 
         if not self.rig:
             print(f'{self.name} does not have a rig to attack from.')
+            return
 
         if self.exposed() == 'Exposed':
             print(f'{self.name} is exposed and cannot launch an attack as their trace level is {self.traceLevel}.')
+            return
 
         dataSpike = [a for a in self.rig.storage if a.name.lower().replace(" ", "") == 'dataspike']
 
@@ -318,7 +320,8 @@ class Hacker:
         exposed = 'Exposed' if self.exposed() else 'Not Exposed'
         return (
         f'Hacker: {self.name}\n'
-        f'Rig: {self.rig.name}\n'
+        f'Exposed: {exposed}\n'
+        f'Rig: {rigName}\n'
         f'Trace Level: {self.traceLevel}\n'
         f'Inventory: {self.inventoryList()}'
           )
