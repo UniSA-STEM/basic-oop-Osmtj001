@@ -107,7 +107,7 @@ class Hacker:
             return
 
         if self.exposed() == 'Exposed':
-            print(f'{self.name} is exposed and cannot launch an attack as their trace level is {self.traceLevel}.')
+            print(f'{self.name} is Exposed! Unable to launch attack with trace level: {self.traceLevel}.')
             return
 
         dataSpike = [a for a in self.rig.storage if a.name.lower().replace(" ", "") == 'dataspike']
@@ -283,7 +283,7 @@ class Hacker:
             print(f'{self.name} does not have any damage requiring repair.')
             return False
 
-        token = self.findasset(self.inventory, 'CryptoToken')
+        token = self.findAsset(self.inventory, 'CryptoToken')
         if not token:
             print(f'{self.name} does not have any CryptoToken for rig repair.')
             return False
@@ -307,7 +307,12 @@ class Hacker:
         if not hwPatch:
             print(f'{self.name} does not have a Hardware Patch for rig upgrade.')
             return False
-
+        choice = input('Do you wish to use 1x Hardware Patch to repair the rig? (y/n): ')
+        while choice != 'y' and choice != 'n':
+            choice = input('Please enter y or n: ')
+        if choice == 'n':
+            print('Upgrade has been cancelled.')
+            return False
         self.inventory.remove(hwPatch)
         self.rig.upgradeLevel += 1
         print(f'{self.rig.name} has been upgraded by using 1x Hardware Patch to level {self.rig.upgradeLevel}.')
