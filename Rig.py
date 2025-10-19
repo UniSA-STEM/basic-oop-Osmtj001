@@ -29,37 +29,31 @@ class Rig:
     def rigCondition(self):
 
         if self.damageCounter == 0:
-            return (f'Pristine ({self.damageCounter})')
+            return f'Pristine ({self.damageCounter})'
         elif self.damageCounter == 1:
-            return (f'Damaged ({self.damageCounter})')
+            return f'Damaged ({self.damageCounter})'
         elif self.damageCounter >= (self.upgradeLevel + 2):
             self.broken = True
-            return (f'Broken ({self.damageCounter})')
+            return f'Broken ({self.damageCounter})'
 
 #Function which will be called when taking damage. Will update prior rigCondition function & display new damage/ condition
     def takeDamage(self):
 
-        if self.broken == True:
+        if self.broken:
             print(f'{self.name} is already broken')
-            return
+            return True
 
 
         self.damageCounter += 1
         print(f'{self.name}: Taking {self.damageCounter} damage')
 
-        if self.upgradeLevel == 0 and self.damageCounter >= 2:
+        threshold = 2 + self.upgradeLevel
+        if self.damageCounter >= threshold:
             self.broken = True
-            print(f'{self.name} has been critically damaged and no longer function. {self.name} is now broken')
+            print(f'{self.name} has been critically damaged & is now broken')
 
-        elif self.upgradeLevel == 1 and self.damageCounter >= 3:
-            self.broken = True
-            print(f'{self.name} has been critically damaged and no longer function. {self.name} is now broken')
-
-        elif self.upgradeLevel == 2 and self.damageCounter >= 4:
-            self.broken = True
-            print(f'{self.name} has been critically damaged and no longer function. {self.name} is now broken')
-
-        print(f'{self.name} Current Condition: {self.rigCondition()}')
+        print(f'{self.name}: Currnent Condtion: {self.rigCondition()}')
+        return self.broken
 
 #Function to prompt the user if they would like to repair for 1x CryptoToken. If not, the user is returned out of the function. Function will call on the user inventory & update if a token is taken
     def rigRepair(self, hacker):
