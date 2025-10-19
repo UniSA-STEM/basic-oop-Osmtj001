@@ -267,6 +267,31 @@ class Hacker:
         if moved:
             print(f"Retrieved from {self.rig.name}: {', '.join(a.name for a in moved)}")
         return moved
+    #Allows the Hacker to repair their rig with the use of 1x Cryptotoken
+    def repairRig(self):
+        if not self.rig:
+            print(f'{self.name} does not have a rig to repair.')
+            return False
+
+        if self.rig.damageCounter == 0 and not self.rig.broken
+            print(f'{self.name} does not have any damage requiring repair.')
+            return False
+
+        token = self.findasset(self.inventory, 'CryptoToken')
+        if not token:
+            print(f'{self.name} does not have any CryptoToken for rig repair.')
+            return False
+
+        choice = input('Do you wish to use 1x CryptoToken to repair the rig? (y/n): ')
+        while choice != 'y' and choice != 'n':
+            choice = input('Please enter y or n: ')
+        if choice == 'n':
+            print('Repair has been cancelled.')
+            return False
+
+        self.inventory.remove(token)
+        self.rig.damageCounter = 0
+        self.rig.broken = False
 
        #String function to display key variables from 'Hacker' class
     def __str__(self):
