@@ -106,25 +106,25 @@ class Rig:
 
         if category == 'R':
             self.storage.append(generatedAsset)
-            print(f'{self.name} has generated {generatedAsset}')
+            print(f'{self.name} has generated {generatedAsset} This has been placed into storage')
 
         elif category == 'H':
             if hacker:
                 hacker.inventory.append(generatedAsset)
-                print(f'{self.name} has generated {generatedAsset}')
+                print(f'{self.name} has generated {generatedAsset}This has been placed into Inventory')
             else:
                 self.storage.append(generatedAsset)
-                print(f'{self.name} has generated {generatedAsset} into storage')
+                print(f'{self.name} has generated {generatedAsset} This has been placed into storage')
 
         elif category == 'R_H':
 
             if hacker and random.choice([True, False]):
                 hacker.inventory.append(generatedAsset)
-                print(f'{self.name} has generated {generatedAsset} into storage')
+                print(f'{self.name} has generated {generatedAsset} This has been placed into storage')
 
             else:
                 self.storage.append(generatedAsset)
-                print(f'{self.name} has generated {generatedAsset} into storage')
+                print(f'{self.name} has generated {generatedAsset} This has been placed into Inventory')
 
 
 
