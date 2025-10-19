@@ -14,17 +14,64 @@ import random
 
 #Normalizer to easily format functions upon output at a later stage
 def normalizerformat(function, label):
-    print('\n' + '=' * 20)
+    print('\n' + '=' * 30)
     print(f'{label}')
-    print('=' * 20)
+    print('=' * 30)
     function()
+    input('\nPress Enter to continue...')
 
 #Test definitions for different scenarios
-def test_no_rig():
+def testNoRig():
     h = Hacker('Superman')
     target = Rig('Lex Luther')
     print(h)
     h.attack('Lex Luther')
 
+def testNoDataspike():
+    h = Hacker('Superman')
+    h.rig = Rig('SuperRig')
+    target = Rig('Lex Luther')
+    print(h)
+    print(h.rig)
+    h.attack('Lex Luther')
+
+def testAttack():
+    h = Hacker('Superman')
+    h.rig = Rig('SuperRig')
+    h.rig.storage.append(Asset('Data Spike', 'Used in battles.'))
+    target = Rig('Lex Luther')
+    print('Before Attack Launched')
+    print(h)
+    print(target)
+    h.attack(target)
+    print('After Attack')
+    print(h)
+    print(target)
+
+def testAttackExtraction():
+    h = Hacker('Superman')
+    h.rig = Rig('SuperRig')
+    h.rig.storage.append(Asset('Data Spike', 'Used in battles.'))
+    h.rig.storage.append(Asset('Data Spike', 'Used in battles.'))
+    h.rig.storage.append(Asset("Removable Drive", 'Found in rigs and used for extraction.'))
+    target = Rig('Lex Luther')
+    target.broken = False
+    target.storage.append(Asset('CryptoToken', 'Used to acquire or repair rigs.'))
+    a = Asset('Kryptonite', 'Supermans biggest weakness')
+    a.encrypt = False
+    target.storage.append(a)
+    print('Before Attack Launched')
+    print(h)
+    print(target)
+    h.attack(target)
+    h.attack(target)
+    print('After Attack')
+    print(h)
+
+
+#Calls the above functions with the formatting from Normalizer to return a clean output of tests run
 if __name__ == '__main__':
-    normalizerformat(test_no_rig, 'Test without a rig')
+    normalizerformat(testNoRig, 'Test without a rig')
+    normalizerformat(testNoDataspike, 'Test without a dataspike')
+    normalizerformat(testAttack, 'Simulation of full attack')
+    normalizerformat(testAttackExtraction, 'Simulation with extraction')
