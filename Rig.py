@@ -29,18 +29,19 @@ class Rig:
     def rigCondition(self):
 
         if self.damageCounter == 0:
-            return (f'Pristine ({self.upgradeLevel})')
+            return (f'Pristine ({self.damageCounter})')
         elif self.damageCounter == 1:
-            return (f'Damaged ({self.upgradeLevel})')
+            return (f'Damaged ({self.damageCounter})')
         elif self.damageCounter >= (self.upgradeLevel + 2):
             self.broken = True
-            return (f'Broken ({self.upgradeLevel})')
+            return (f'Broken ({self.damageCounter})')
 
 #Function which will be called when taking damage. Will update prior rigCondition function & display new damage/ condition
     def takeDamage(self):
 
         if self.broken == True:
             print(f'{self.name} is already broken')
+            return
 
 
         self.damageCounter += 1
@@ -133,5 +134,9 @@ class Rig:
 #Allows the user to display the Rig details at any moment
     def __str__(self):
         assetStorage =  ','.join(str(asset) for asset in self.storage) if self.storage else 'No Assets located within storage'
-        return f'Rig: {self.name} \n Condition: {self.rigCondition()} \n Upgrade Level: {self.upgradeLevel} \n Storage: {assetStorage}'
+        return (
+            f'Rig: {self.name} \n'
+            f'Condition: {self.rigCondition()} \n'
+            f'Upgrade Level: {self.upgradeLevel} \n'
+            f'Storage: {assetStorage}')
 
