@@ -17,13 +17,11 @@ class Asset:
 
 #Allows user to encrypt assets, print statement will advise user if encryption has been successful, and if asset was already encrypted
     def encrypt(self):
-
-        if self.encrypted == False:
-            self.encrypted = True
-            print(f'{self.name} Has been encrypted within the Main Module.')
-
+        if self.encrypted:
+            print(f'{self.name} already encrypted')
         else:
-            print(f'{self.name} Has been already been encrypted within the Main Module.')
+            self.encrypted = True
+        print(f'{self.name} encrypted')
 
 
 #Allows user to decrypt assets. Will advise user if function is successful, or if asset was already decrypted
