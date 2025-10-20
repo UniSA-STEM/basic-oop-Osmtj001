@@ -144,7 +144,7 @@ def testRepair():
 
 
 
-#Calls the above functions with the formatting from Normalizer to return a clean output of tests run
+#Calls the above functions with the formatting from Normalizer to return a clean output of test run
 if __name__ == '__main__':
     normalizerformat(testNoRig, 'Test without a rig')
     normalizerformat(testNoDataspike, 'Test without a dataspike')
